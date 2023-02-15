@@ -145,7 +145,7 @@
  * `sudo systemclt enable nginx`
  * Should now be able to use the `public IPv4 address` to connect to nginx webpage on your browser
 
-![](aws_diagram.png)
+![](pictures/aws_diagram.png)
 
 ## Possible errors
 ### Connection has times out/ access denied
