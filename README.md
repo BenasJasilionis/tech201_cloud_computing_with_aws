@@ -22,7 +22,7 @@
 ## Types of cloud services- Infrastructure as a Service (IaaS)
 * Provides acces to networking features, computers (virtual or dedicated hardware) and data storage space.
 * Save money on hardware costs
-* REduce maintenance of on premise data centers -> delegate to larger firms with more security options.
+* Rduce maintenance of on premise data centers -> delegate to larger firms with more security options.
 * Bypass complexity of managing physical servers and datacenter infrastructure
 ### Advantages
 * Security
@@ -64,3 +64,6 @@
 * `Operating expenses` are a company's day-to-day expenses
 * Cloud computing helps minimise `capital expenditures` , as services and can be scaled up/ down as needed.
 * Previously, companies would have massive `capital expenditure` due to having to predict demand for their services far into the future, now they can respond to demand in near enough real time.
+## Types of cloud
+
+![](types_of_cloud.png)
