@@ -66,7 +66,7 @@
 * Previously, companies would have massive `capital expenditure` due to having to predict demand for their services far into the future, now they can respond to demand in near enough real time.
 ## Types of cloud
 
-![](types_of_cloud.png)
+![](pictures/types_of_cloud.png)
 
 # Lesson
 * Localhost = onprim
@@ -147,6 +147,43 @@
 
 ![](aws_diagram.png)
 
-### Possible errors
- * Can hang - access denied -> because port 22 not open
- * Key not found - permission denied
+## Possible errors
+### Connection has times out/ access denied
+* Caused when port 22 is not open or the IP is wrong
+* Navigate to `security` in your instance and select the blue string under `security groups`
+* Click `edit inbound rules`
+* For port `22`, set the source to `My IP` and `save rules`
+
+* Key not found - permission denied
+## AWS console tour
+* Static IP-> doesn't change
+* Dynamic IP -> changes
+* If your IP is dynamic, may need to go into security group and tell AWS to allow your new IP
+* How to secure app -> with AWS credentials, AWS keypair, 
+* System reachability ->
+* Basic monitoring is enabled by default in AWS
+## Data migration
+* Now want to take the app data available locally and transfer it to the EC2 instance
+* Migrate app folder with provision.sh
+* Migrate reverse proxy configuration
+* Install required dependencies
+* Can use rsynch command or ssh to send data from 1 end point to the other
+* Sending request from local host to global it gets verifeid with .pem file, therefore need to include .pem file in command
+### Transferring a directory from a local machine to ec2
+* Open `gitbash` as an administrator
+* Navigate to the `.ssh` folder
+* Inside the folder, run the following command : `scp -i devops-tech201.pem -r <your directory path> ubuntu@<your IP in the example block you paste to ssh into ec2>:/home/ubuntu`
+* This will copy your `directory` folder into the `home` directory in the ec2 VE
+* In this example, the `provisioning` and `reverse_proxy` files were also in the `app` directory which we transferred
+* If this was not the case and we still wanted to import those files, you would need to run the same command for each file, except without the `-r` flag
+* Once the directory/files are transferred , `ssh` into `ec2` using the instructions from `AWS`
+* Inside the `VE`, navigate to the `app` directory and run your provision script.
+* For this example, this would be:
+```
+sh provsion.sh
+```
+* Run the aoo with:
+```
+node app.js
+```
+* You should now be able to connect to your `app` wihtout a port number using the ipv4 public IP address on AWS.
