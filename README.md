@@ -67,3 +67,86 @@
 ## Types of cloud
 
 ![](types_of_cloud.png)
+
+# Lesson
+* Localhost = onprim
+* Currently app and db are locally deployed
+* If we were to provide this to a client, they would need to set up all the same machines as we did -> clients tend to be non technical
+* Therefore want to make an environment thats globally available, cost effective, easy to manage etc.. -> migrate to cloud
+* Most organisations are either migrating to cloud or they are already there, or they need someone to maintain the infrastructure, or create hybrid environments 
+* Some orgs use on prim for security reasons
+* Therefore best to learn on prim, then try to build a hybrid environment
+* First - write a script -> understand what we are going to do before we do it
+1) We have succesfully deployed our environments using provision scripting, but they are not globally available
+2) To move to cloud, need AWS credentials
+3) Need :
+ * Migrate data
+ * app folder
+ * mongodb set up
+ * Provision.sh scripts
+ * Reverse proxy 
+ * Environment variable
+ ## 1
+ * We deployed monolithic -> not scaleable
+ * Every time there is a change, need to do vagrant up again -> system goes down while changes are implemented
+ * Make it scaleable by refactoring monolith to 2tier architecture on the cloud
+ * To refactor, we need to rent a machine on the cloud :
+ * Buying pc considerations -> Storage, CPU, Memory, Screen size, Graphics system, SSD or hard drive , persistent storage or temporary memory etc.
+ * Afterwards, need to secure because it is globally available -> anyone can attack from anywhere in the world
+ * Need to create a firewall -security group on AWS
+ * Cost -> after considering options, need to choose the most cost effective for our needs
+ * Need to consider where they are accessing the site from -> e.g. client in New Zealand and our data center is in Ireland -> minimise request travel, reduce latency
+ * We needed credentials to access our Vagrant VM -> SSH in local host did not require a key, it was secured by personal password
+ * No personal password on cloud, need to make an SSH key, put it in a folder and send a request -> cant access without the key
+ * Put the key  `tech201.pem` move to .ssh folder in your localhost
+ * `cd + ENTER` brings you home
+ * The key must match the lock
+ * SSH keypair -> if the key we provide matches the lock, we can log in
+ * AWS credentials -> AWS key
+ ## Make key
+ 1) Log in to AWS
+ 2) Search `ec2` and click on it
+ 3) Click keypair
+ 4) Generate and download the key
+ 5) Move the key file to `.ssh` folder
+ 6) Click `EC` Dashboard
+ 7) Click `launch instance`
+ * Naming convention -> `name-groupname-what you are launching (app in this case)`
+ 8) Select `ubuntu 18.04` as OS
+ * Now edit the network settings
+ 9) Select CPU - `t2.micro` is fine for now 
+ 10) Enter the key file name -> e.g. `devops-tech201`
+ 11) Keep the default `vpc setting`
+ 12) For subnet, select -> `DevOpsStudent default 1a`
+ 13) Auto assign IP -> `Enable`
+ 14) Firewall security ->`Create security group`
+ 15) Security group name -> `BENAS-TECH201-APP-REQUIRED PORTS 3000-80-` (can name this anything)
+ 16) Add a security group rule:
+ 17) Type -> `Custom TCP`
+ 18) Port Range -> `3000`
+ 19) Description optional -> `For node app` (description is optional)
+ 20) Source type -> `Anywhere`
+ * Should also have
+ * After setup, machine EC2 should be running in the cloud
+ * When machine is launched, it is initialied and
+ * Now want to test the machine
+ * First, need to `SSH` into the machine by sending a request
+ * Click `connect` and select `SSH client`
+ * SSH client = gitbash terminal
+ * step 3 makes it readable
+ * Run `gitbash` as admin and `cd` into the `.ssh` folder, and copy step 3 command to check permissions
+ * Copy the example command into the terminal to `ssh` into the virtual environment 
+ * When the command is entered, request goes to AWS and if everything is configured correctly we should be connected
+ * Once inside, `update` and `upgrade` your system:
+ * `sudo apt-get update -y`
+ * `sudo apt-get upgrade -y`
+ * Then install and enable `nginx`:
+ * `sudo apt-get install nginx`
+ * `sudo systemclt enable nginx`
+ * Should now be able to use the `public IPv4 address` to connect to nginx webpage on your browser
+
+![](aws_diagram.png)
+
+### Possible errors
+ * Can hang - access denied -> because port 22 not open
+ * Key not found - permission denied
