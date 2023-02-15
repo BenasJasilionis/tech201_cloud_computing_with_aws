@@ -169,7 +169,7 @@
 * Install required dependencies
 * Can use rsynch command or ssh to send data from 1 end point to the other
 * Sending request from local host to global it gets verifeid with .pem file, therefore need to include .pem file in command
-### Transferring a directory from a local machine to ec2
+## Transferring a directory from a local machine to ec2
 * Open `gitbash` as an administrator
 * Navigate to the `.ssh` folder
 * Inside the folder, run the following command : `scp -i devops-tech201.pem -r <your directory path> ubuntu@<your IP in the example block you paste to ssh into ec2>:/home/ubuntu`
@@ -182,7 +182,7 @@
 ```
 sh provsion.sh
 ```
-* Run the aoo with:
+* Run the app with:
 ```
 node app.js
 ```
