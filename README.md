@@ -187,3 +187,36 @@ sh provsion.sh
 node app.js
 ```
 * You should now be able to connect to your `app` wihtout a port number using the ipv4 public IP address on AWS.
+
+- cap
+## SSH key pair
+* Want a secure connection betwenn endpoint A and B
+* Could be local host and AWS etc..
+* Send a request betweene endpoints asks if we would like to copy key into hosts localfile-> if key matches it copeys key into other endpoint
+* Next time you send request key already matches, so you log in faster
+## Choosing a region to deploy in
+* In practical situations, region must be closest to user/ client
+* Each region has different data centers/availabily zones(AZ's, minimum 2)
+* Ireland has 3 AZ's -> euw1a, b ,c
+* Different regions and AZ's have different services available
+* Therefore need to choose region and AZ with the services we require, even if its not the closest
+* E.g. clinet wants lambda functions or wanto be serverless, but the nearest data centre does not have it
+* When choosing a region or AZ, need to consider latency as well as client requirements
+## 2 Tier architecture
+* We use Ireland because we are all UK based and it has 3 AZ's
+* When we launch `auto scaler group` and `load balancer` we will want to launch in multiple AZ's so we can balance the traffic and make it highly available
+* `VPC` virtual private cloud -> provides range of postcodes to use
+* From local host we entered AWS VPC using internet gateway
+* From there launched instance in a public subnet (DevOps student 1a) to insure that the subnet is visible globally and anyone can access public IP -> this is monolithic
+* Migrated data and installed dependencies, app running
+* Now need to launch another server in a independent subnet with the database
+* Want to make sure that the user does not have access to the database subnet
+* If database goes down, its an independent event, doesnt affect app subnet functionality -> can have an if check in app -> if status != 200, redirect to page saying database service is down
+* Not possible with monolith, is `vagrant up` doesn't work, everything is down
+* Need to refactor because monolith is not scaleable
+* Refactoring also allows for agile methodology and scrum framework -> small teams working independently on different subnets
+* Scaleable -> want another feature, can connect to another subnet via a gateway, develop that subnet independetly without affecting the user journey, since all other features fucntion indepenmdently.
+* Development and maintenance should not affect user journey -> down time is lost profit
+* Test it, if it works add another path so the user gets redirected to the subnet with the required service
+
+![](pictures/2tier_arch.png)
