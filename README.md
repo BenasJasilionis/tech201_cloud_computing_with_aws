@@ -223,3 +223,15 @@ node app.js
 
 ### How does a 2 tier architecture fit into DevOps?
 * Flexibility - 
+
+
+## Requirements
+* App tier deployed -> available on public IP
+* Create 2nd tier with required dependencies: Ubuntu 18.04,
+mongodob installed, change mongod.conf 0.0.0.0.
+* Need a security group for our database - allow 27017 from anywhere - allow only from app instance
+* Go back to the app and create an environment variable with the database endpoint
+* Relaunch the app
+* Securing architecture with firewalls
+* Separate firewall to app, seperate firewall to database
+* App is exposed to the world, database is exposed only to app, limiting access to database
