@@ -235,3 +235,41 @@ mongodob installed, change mongod.conf 0.0.0.0.
 * Securing architecture with firewalls
 * Separate firewall to app, seperate firewall to database
 * App is exposed to the world, database is exposed only to app, limiting access to database
+* DB should not have a public IP
+* In production, security group access IP needs to be private and it should be the app IP
+* Make a file executable -> sudo chmod +x file.sh
+* Can type `history` to see command history
+
+## Creating the databse environment
+1) On AWS, enter `EC2` and click launch instance
+2) Name your instance in the appropriate format e.g: name-org-what is being launched
+3) Select your OS, in this example it is Ubuntu 18.04
+4) Select the instance type, t2.micro is suitable for now
+5) Enter the same key that you used for you `app` VE
+6) Keep the network default
+7) Choose the same subnet as you did for you `app` for simplicity
+* **Note- In a real production environment you would not want to auto-enable a public IP for a database, since users should not be able to access it, but for learning/testing purposes it can be left on**
+8) Create a security group
+9) Edit security group
+10) Create a `Custom TCP` with a port range matching your `database port`
+11) The default storage configuration settings are fine -> launch the instance
+12) Enter the instance management screen and select your newly created instance
+13) Click connect
+14) Select `ssh client`
+15) Open a gitbash terminal as an administrator and `cd` to the `.ssh` folder
+16) Set permissions by copying the 3rd command on the ssh page and running it in your terminal
+17) SSH into the VE by copying the example code at the bottom of the SSh window and running it in you terminal
+18) Inside the database VE, run git clone `<https:your repository with the database derictory and required provisioning files>`
+19) `cd` into the cloned repository, and execute your provision script, there are 2 ways to do this :
+* Make the file executable: `sudo chmod +x file.sh`
+* Now run the file : `sudo ./file.sh`
+* Or you can run `sh file.sh`
+20) Double check that the mongodb database is running with :`sudo systemctl status mongod`
+21) Double check that the configuration file has been correctly changed by your script: `cat /etc/mongod.conf`
+* The `database` VE is now made and configured, but it is not linked to our `app` VE
+
+![](pictures/2tier_arch_v2.png)
+
+### Potential issues
+* `Mongodb not running when checking the status` - Examine the error message taht you get. In most instances this will be due to your script not replacing the `.conf` file correctly. To fix this, completely uninstall mongodb and all its attachtments and reinstall it manually from scratch. The command `rm -rf mongod` can be used to remove mongodb, and any extensions which remain. To remove the extensions, simply do the same command, but copy the mongod.extension that you see when your VE tells you what mongod dependencies still remain
+* `.conf file isn't configured` - If this is the case, run the command: `sudo nano /etc/mongod.conf` and change the IP manually. Save your changes by doing: `CTRL + x`, then `y`, then `ENTER`. Afterwards, take some time to re-examine and refactor your script so that it automates this step for you
