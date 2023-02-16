@@ -172,7 +172,7 @@
 ## Transferring a directory from a local machine to ec2
 * Open `gitbash` as an administrator
 * Navigate to the `.ssh` folder
-* Inside the folder, run the following command : `scp -i devops-tech201.pem -r <your directory path> ubuntu@<your IP in the example block you paste to ssh into ec2>:/home/ubuntu`
+* Inside the folder, run the following command : `scp -i file.pem -r <your directory path> ubuntu@<your IP in the example block you paste to ssh into ec2>:/home/ubuntu`
 * This will copy your `directory` folder into the `home` directory in the ec2 VE
 * In this example, the `provisioning` and `reverse_proxy` files were also in the `app` directory which we transferred
 * If this was not the case and we still wanted to import those files, you would need to run the same command for each file, except without the `-r` flag
@@ -220,3 +220,6 @@ node app.js
 * Test it, if it works add another path so the user gets redirected to the subnet with the required service
 
 ![](pictures/2tier_arch.png)
+
+### How does a 2 tier architecture fit into DevOps?
+* Flexibility - 
