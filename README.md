@@ -240,7 +240,7 @@ mongodob installed, change mongod.conf 0.0.0.0.
 * Make a file executable -> sudo chmod +x file.sh
 * Can type `history` to see command history
 
-## Creating the databse environment
+## Creating the database environment
 1) On AWS, enter `EC2` and click launch instance
 2) Name your instance in the appropriate format e.g: name-org-what is being launched
 3) Select your OS, in this example it is Ubuntu 18.04
