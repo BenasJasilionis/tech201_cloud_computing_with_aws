@@ -189,6 +189,8 @@ node app.js
 * You should now be able to connect to your `app` wihtout a port number using the ipv4 public IP address on AWS.
 
 - cap
+## Using git
+* You can clone your whole repository which contains the desired files by simply entering the VE using `ssh` and running the command
 ## SSH key pair
 * Want a secure connection betwenn endpoint A and B
 * Could be local host and AWS etc..
@@ -273,3 +275,42 @@ mongodob installed, change mongod.conf 0.0.0.0.
 ### Potential issues
 * `Mongodb not running when checking the status` - Examine the error message taht you get. In most instances this will be due to your script not replacing the `.conf` file correctly. To fix this, completely uninstall mongodb and all its attachtments and reinstall it manually from scratch. The command `rm -rf mongod` can be used to remove mongodb, and any extensions which remain. To remove the extensions, simply do the same command, but copy the mongod.extension that you see when your VE tells you what mongod dependencies still remain
 * `.conf file isn't configured` - If this is the case, run the command: `sudo nano /etc/mongod.conf` and change the IP manually. Save your changes by doing: `CTRL + x`, then `y`, then `ENTER`. Afterwards, take some time to re-examine and refactor your script so that it automates this step for you
+* `Error [MongoError]: failed to connect to server [192.168.10.150:27017] on first connect [Error [MongoError]: connection 0 to 192.168.10.150:27017 timed out` - Your app is looking for the database but it cant find it using with the provided IP. To fix this, either launch your `database` and connect you environment variable using the correct IP. Alternatively, delete the environmental variable by setting the value to nothing. For example, `DB_HOST=`
+## Connect the `app` VE to `database` VE
+1) Launch your `app` ec2 instance
+2) Click connect
+3) Click `ssh client`
+4) Open another gitbash terminal as an administrator and `cd` to the `.ssh` folder
+5) Copy the example code found on the `ssh client` page and run it in the `.ssh` folder 
+6) Make an environmental variable to connect the app VE to the database VE:
+```
+export DB_HOST=http//dbip:port
+```
+7) Seed the database in the app folder:
+```
+node seeds/seed.sj
+```
+## AMI (amazon machine image)
+* Images allow us to stop an ec3 instance and to restart it from the exact same state
+* 2 machines in a stopped state with different dependencies, they still cost money
+* Amazon machine image takes a snapshot of an ec2 instance -> saves the state of the instance , including dependencies
+* Image is available in the same region as the instance
+* Images help save the business money, as they are much cheaper to maintain then even a stopped instance
+* After confirming that your image is running, you can `terminate` your instance
+* Images save you time, as you dont have to remake your instance from scratch, all the neccessary dependencies are saved within the image 
+## Creating an image
+1) `SSH` into your `app` virtual machine
+2) Navigate to the directory with `app.js` and launch the app:
+```
+node app.js
+```
+* The `app` must be launched because you want to make an image of your machine in a running state, because thats how it will be saved
+3) Select the `app` instance on `AWS` and from the `actions` drop down menu, select `image and templates` -> `Create image`
+4) Specify the `image` name following your naming convention, e.g. `name-group-ve-ami`
+5) In the description, use the same naming convention but also add what ports can connect to the instance, so thath when you come back to the image further down the line you know how to use it, e.g : `name-group-ve-ami-port1-port2-port3-etc`
+6) Create the instance
+7) To find your instance from the AWS home page, search `EC2` and click on it
+8) On the left hand side, under `Images`, click `AMIs`
+9) Find your image by typing in your instance name
+
+![](pictures/ami.png)
