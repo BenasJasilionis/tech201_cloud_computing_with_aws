@@ -276,6 +276,7 @@ mongodob installed, change mongod.conf 0.0.0.0.
 * `Mongodb not running when checking the status` - Examine the error message taht you get. In most instances this will be due to your script not replacing the `.conf` file correctly. To fix this, completely uninstall mongodb and all its attachtments and reinstall it manually from scratch. The command `rm -rf mongod` can be used to remove mongodb, and any extensions which remain. To remove the extensions, simply do the same command, but copy the mongod.extension that you see when your VE tells you what mongod dependencies still remain
 * `.conf file isn't configured` - If this is the case, run the command: `sudo nano /etc/mongod.conf` and change the IP manually. Save your changes by doing: `CTRL + x`, then `y`, then `ENTER`. Afterwards, take some time to re-examine and refactor your script so that it automates this step for you
 * `Error [MongoError]: failed to connect to server [192.168.10.150:27017] on first connect [Error [MongoError]: connection 0 to 192.168.10.150:27017 timed out` - Your app is looking for the database but it cant find it using with the provided IP. To fix this, either launch your `database` and connect you environment variable using the correct IP. Alternatively, delete the environmental variable by setting the value to nothing. For example, `DB_HOST=`
+* ` root is in ssh login command` - Simply replace `root` with `ubuntu`. AWS presumes you have admin powers, therefore attaches root by default.
 ## Connect the `app` VE to `database` VE
 1) Launch your `app` ec2 instance
 2) Click connect
@@ -312,5 +313,12 @@ node app.js
 7) To find your instance from the AWS home page, search `EC2` and click on it
 8) On the left hand side, under `Images`, click `AMIs`
 9) Find your image by typing in your instance name
+10) Select the image and click `Launch instance from AMI`
+11) Name the instance appropriately : `name-group-db-ami`
+12) Enter your key
+13) Select an existing security group, and choose your old db security group from the list
+* This step is why it is useful to name your `security groups`, as know you know what ports can be used
+14) Launch the instance
+15) From here, your instance should be initiated, with the same dependencies as when the image was created
 
 ![](pictures/ami.png)
