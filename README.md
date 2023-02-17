@@ -320,5 +320,18 @@ node app.js
 * This step is why it is useful to name your `security groups`, as know you know what ports can be used
 14) Launch the instance
 15) From here, your instance should be initiated, with the same dependencies as when the image was created
+16) To relaunch your 2 tier architecture, simply update the environmental variable in your `app` ve to have the ip of the new `db`, and from there the steps are the same:
+17) Seed the database in the app directory:
+```
+node seeds/seed.js
+```
+18) Launch the app
+```
+node app.js
+```
 
 ![](pictures/ami.png)
+## Why use AMIs?
+* Images save the business money, as they are cheaper to maintain than even stopped instances
+* They help speed up development, as all of your dependencies are stored inside the image, so that when you use the image to launch an instance that instance comes pre-installed with all of the previous dependencies
+* They help minimise the chance of error, as you do not need to manually reconfigure the instance from scratch, you only need to select the security group you would like to use, the rest of the options are saved.
