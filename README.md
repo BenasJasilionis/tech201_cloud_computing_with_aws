@@ -415,9 +415,95 @@ node app.js
 * Cell-based architectures reduce blast radius
 * Good tooling
 * Non-judgmental root-cause analysis
+* It is globally available
 ## Who uses buckets?
 * Netflix
 * Disney plus
 * Twitter
 * Spotify
 ## S3 Crud
+## Accessing s3 buckets through command line - requirements
+* What permissions do we need from s3 and aws
+* AWS cli needs secret keys and access -> dependencies
+* AWS cli dependencies are as follows :
+1)  Python 3.7 or above -> AWSCLI is built using python
+2)  Update/upgrade
+* AWS config set up :
+1) Enter the access key
+2) Enter secret keys
+3) Region - eu-west-1
+4) Output -> json
+## Data security
+* On prim- firewall
+* Cloud - ssh, secret access keys
+* Data in transit-
+* scp end to end encrypted
+## Accessing s3 buckets through command line - process
+1) Open gitabash as an administator
+2) Move your secure keys file into your `.ssh` directory
+3) Create an `EC2` instance
+4) `SSH` into the instance
+5) Update the system:
+```
+sudo apt update -y
+```
+6) Upgrade the system:
+```
+sudo apt upgrade -y
+```
+7) Install python:
+```
+sudo apt install python
+```
+* Can have multiple versions of pyhon on 1 machine, ubuntu uses default unless specifiec
+8) Tell ubuntu to use the newly installed version of python:
+```
+alias python=python3
+```
+* This can be made persistent
+10) Install the python package manager called `pip`
+```
+sudo apt install pyton3-pip
+```
+11) Install AWS command line interface (awscli)
+```
+sudo pip3 install awscli
+```
+* -y wont work because thats a linux command, we are using a python manager
+* or: 
+```
+python3 -m pip install awscli
+```
+12) Enter the aws interface
+```
+aws configure
+```
+13) Enter access key
+14) Enter secret acces key
+15) Enter region -> eu-west-1
+16) Enter file format - json
+17) Check whether you can view the s3 buckets :
+```
+aws s3 ls
+```
+18) Create an s3 bucket:
+```
+aws s3 mb s3://bucket-name
+```
+* Can't use underscores in naming convention
+19) Move a file into a bucket
+```
+aws s3 cp test.txt s3://benas-tech201
+```
+![](pictures/local_ec2_bucket.png)
+
+## Changing bucket object permissions
+1) On AWS, navigate to `s3` -> `buckets` -> `your bucket`
+2) Click on your file
+3) Select permissions
+4) Set permissions as needed (usually allow read only publicly so that anyone can view it)
+5) Save
+6) Enter the object url to check whether or not the file is readable, for example:
+
+![](pictures/readable_object.png)
+
