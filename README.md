@@ -373,3 +373,51 @@ node app.js
 21) Under Preview and create, confirm that the information and conditions are what you want, then choose Create alarm.
 
 ![](pictures/monitoring.png)
+
+## Alarm
+* Load balancing -> make instance highly available -> e.g. euw1a and euw1b
+* If 1a status is not 200, can redirect raffic to 1b
+* Achieve high availability by using load balancers and auto scaling groups
+* CDE -> continuous deployment
+## S3 buckets
+* Simple storage service
+* Helps us provide storage where you dont have to worry about data type
+* A bucket is a container for objects stored in Amazon S3. You can store any number of objects in a bucket and can have up to 100 buckets in your account
+* Every object is contained in a bucket
+* Objects are made from data, key (assigned name) and metadata
+* When data is added to a bucket, Amazon S3 creates a unique version ID and allocates it to the object.
+* Multiple storage architecture
+
+![](pictures/bucket.png)
+
+## Advantages of buckets
+* `Durability`:  S3 provides 99.999999999 percent durability.
+* `Low cost`: S3 lets you store data in a range of “storage classes.” These classes are based on the frequency and immediacy you require in accessing files. 
+* `Scalability`: S3 charges you only for what resources you actually use, and there are no hidden fees or overage charges. You can scale your storage resources to easily meet your organization’s ever-changing demands.
+* `Availability`: S3 offers 99.99 percent availability of objects
+* `Security`: S3 offers an impressive range of access management tools and encryption features that provide top-notch security.
+* `Flexibility`: S3 is ideal for a wide range of uses like data storage, data backup, software delivery, data archiving, disaster recovery, website hosting, mobile applications, IoT devices, and much more.
+* `Simple data transfer`: You don’t have to be an IT genius to execute data transfers on S3. The service revolves around simplicity and ease of use.
+## S3 bucket disaster recovery
+* Disaster recovery is the process by which an organization anticipates and addresses technology-related disasters
+* S3 Replication is the feature that enables an automatic and async copy of your data from one bucket to another bucket
+* Copies of replicated objects in the destination bucket are identical to those in the source bucket, which means that these objects have the same name and metadata
+## Example S3 use cases
+* Backup file systems
+* Infrequent Access, Reduced Redundancy & Archival Storage
+* Host static websites
+* Create a private local repository
+* Improve file sharing
+## Bucket high availability
+* Redundancy in everything - use availability zones
+* Continuously improve failure detection
+* Continuously improve recovery times
+* Cell-based architectures reduce blast radius
+* Good tooling
+* Non-judgmental root-cause analysis
+## Who uses buckets?
+* Netflix
+* Disney plus
+* Twitter
+* Spotify
+## S3 Crud
