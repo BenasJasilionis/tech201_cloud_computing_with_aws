@@ -335,3 +335,41 @@ node app.js
 * Images save the business money, as they are cheaper to maintain than even stopped instances
 * They help speed up development, as all of your dependencies are stored inside the image, so that when you use the image to launch an instance that instance comes pre-installed with all of the previous dependencies
 * They help minimise the chance of error, as you do not need to manually reconfigure the instance from scratch, you only need to select the security group you would like to use, the rest of the options are saved.
+## Monitoring and alert management
+* Currently have enviornment working, how will we find out if something goes wrong
+* Right now, if something goes wrong, the client finds out first
+* We want to know before the user so that we can fix it and create a better user experience , ensure the architecture is 24/7 available
+* Monitoring can be 
+* What do we monitor: node.js,db,public ips, posts page, fibbonaci page, etc
+* Monitoring comes with costs
+* Monitoring rules
+* Enable monitoring
+* What do we specifically want to monitor -> we create a policy 
+## How to create a CPU alarm
+1) Open the CloudWatch console at https://console.aws.amazon.com/cloudwatch/.
+* Make sure your region is Ireland
+2) In the navigation pane, choose Alarms, All Alarms.
+3) Choose Create alarm.
+4) Choose Select metric.
+5) In the All metrics tab, choose EC2 metrics.
+6) Choose a metric category (for example, Per-Instance Metrics).
+7) Find the row with the instance that you want listed in the InstanceId column and CPUUtilization in the Metric Name column. Select the check box next to this row, and choose Select metric.
+* To make this easier, you can copy and paste your instance ID to find it
+8) Under Specify metric and conditions, for Statistic choose Average, choose one of the predefined percentiles, or specify a custom percentile (for example, p95.45).
+9) Choose a period (for example, 5 minutes).
+10) Under Conditions, specify the following:
+11) For Threshold type, choose Static.
+12) For Whenever CPUUtilization is, specify Greater. Under than..., specify the threshold that is to trigger the alarm to go to ALARM state if the CPU utilization exceeds this percentage. For example, 70.
+13) Choose Additional configuration. For Datapoints to alarm, specify how many evaluation periods (data points) must be in the ALARM state to trigger the alarm. If the two values here match, you create an alarm that goes to ALARM state if that many consecutive periods are breaching.
+* To create an M out of N alarm, specify a lower number for the first value than you specify for the second value. 
+14) For Missing data treatment, choose how to have the alarm behave when some data points are missing. 
+* If the alarm uses a percentile as the monitored statistic, a Percentiles with low samples box appears. Use it to choose whether to evaluate or ignore cases with low sample rates. If you choose ignore (maintain alarm state), the current alarm state is always maintained when the sample size is too low.
+15) Choose Next.
+16) Under Notification, choose create topic and enter the email to which you would like to be notified via SNS
+17) To have the alarm send multiple notifications for the same alarm state or for different alarm states, choose Add notification.
+18) To have the alarm not send notifications, choose Remove.
+19) When finished, choose Next.
+20) Enter a name and description for the alarm. The name must contain only ASCII characters. Then choose Next.
+21) Under Preview and create, confirm that the information and conditions are what you want, then choose Create alarm.
+
+![](pictures/monitoring.png)
