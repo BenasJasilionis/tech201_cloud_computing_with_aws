@@ -409,10 +409,11 @@ node app.js
 * Create a private local repository
 * Improve file sharing
 ## Bucket high availability
+* Monitoring - every S3 component is proactviely monitored. Integrated monitoring allows for the measuring of fail and repair rates, which helps with modelling the availability
 * Redundancy in everything - use availability zones
 * Continuously improve failure detection
 * Continuously improve recovery times
-* Cell-based architectures reduce blast radius
+* Cell-based architectures reduce blast radius - A cell is a self-contained unit of devices that handles specific workloads. After AWS updates a cell, customers whose requests use those cells benefit from the new software. 
 * Good tooling
 * Non-judgmental root-cause analysis
 * It is globally available
