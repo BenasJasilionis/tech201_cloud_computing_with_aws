@@ -613,3 +613,45 @@ print(response)
 * Want to make sure that if there are 2 or more instance running, they are not in the same AZ -> if one goes down load balancer can redirect the traffic and auto scaler will create an instance in a available AZ -> multi AZs
 
 ![](pictures/autoscaling_loadbalancing.png)
+
+
+## Advantages of using ALB over a classic load balancer
+* Support for Path conditions. You can configure rules for your listener that forward requests based on the URL in the request. This enables you to structure your application as smaller services, and route requests to the correct service based on the content of the URL.
+* Support for Host conditions. You can configure rules for your listener that forward requests based on the host field in the HTTP header. This enables you to route requests to multiple domains using a single load balancer.
+* Support for routing based on fields in the request, such as HTTP header conditions and methods, query parameters, and source IP addresses.
+* Support for routing requests to multiple applications on a single EC2 instance. You can register an instance or IP address with multiple target groups, each on a different port.
+* Support for redirecting requests from one URL to another.
+* Support for returning a custom HTTP response.
+* Support for registering targets by IP address, including targets outside the VPC for the load balancer.
+* Support for registering Lambda functions as targets.
+* Support for the load balancer to authenticate users of your applications through their corporate or social identities before routing requests.
+* Support for containerized applications. Amazon Elastic Container Service (Amazon ECS) can select an unused port when scheduling a task and register the task with a target group using this port. This enables you to make efficient use of your clusters.
+* Support for monitoring the health of each service independently, as health checks are defined at the target group level and many CloudWatch metrics are reported at the target group level. Attaching a target group to an Auto Scaling group enables you to scale each service dynamically based on demand.
+* Access logs contain additional information and are stored in compressed format.
+* Improved load balancer performance.
+## Creating an auto scaler and load balancer - Creating a template
+1) On the AWS home page, navigate to `Launch Templates` on the left hand side and select `Create Launch Template`
+2) Name your template and add a description of what it is for, usually copying the name is sufficient
+3) Tick the box to provide auto scaling guidance
+4) Either select your `AMI` or the `OS` you would like to use, e.g. ubuntu18.04
+5) Select `t2.micro` for the instance type
+6) Enter your key from the `.ssh` folder
+7) Do not include a launch template, this will be configured in the `auto scaling group (ASG)`
+8) You will want your template to have the same security groups as your original instance, so select the `app` security group instead of making a new one
+9) Select `Advanced details` and scroll down untill you see `User data`
+10) Add the command to allow `npm start` to run in the background
+## Creating an auto scaler and load balancer - Creating the ASG
+1) On the AWS home page, scroll down to `Auto Scaling` and click on `Auto Scaling Groups`
+2) Click `Create an Auto Scaling Group`
+3) Name the group following the accepted format, e.g. name-group-whatisit
+4) Select the template you've made
+5) Click next
+6) On this page, select the 3 subnets we will be using to make our ASG highly availalbe -> eu-west-1a,1b,1c 
+7) Click next
+8) Select `Attach to a new load balancer`
+9) Select `Application Load Balancer`
+10) Name the load balancer with the accepted format
+11) Make the load balancer `internet-facing`
+12) Create a `dafault routing` group with the same naming convention
+12) Under health checks, tick `ELB`
+13) 
