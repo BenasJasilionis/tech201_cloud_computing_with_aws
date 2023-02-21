@@ -455,7 +455,7 @@ sudo apt upgrade -y
 ```
 sudo apt install python
 ```
-* Can have multiple versions of pyhon on 1 machine, ubuntu uses default unless specifiec
+* Can have multiple versions of pyhon on 1 machine, ubuntu uses default unless specified
 8) Tell ubuntu to use the newly installed version of python:
 ```
 alias python=python3
@@ -463,7 +463,7 @@ alias python=python3
 * This can be made persistent
 10) Install the python package manager called `pip`
 ```
-sudo apt install pyton3-pip
+sudo apt install python3-pip
 ```
 11) Install AWS command line interface (awscli)
 ```
@@ -479,7 +479,7 @@ python3 -m pip install awscli
 aws configure
 ```
 13) Enter access key
-14) Enter secret acces key
+14) Enter secret access key
 15) Enter region -> eu-west-1
 16) Enter file format - json
 17) Check whether you can view the s3 buckets :
@@ -507,3 +507,70 @@ aws s3 cp test.txt s3://benas-tech201
 
 ![](pictures/readable_object.png)
 
+## What was provided for us
+* Keys
+* Accounts
+* permission attached to account (aim -access identity management)
+* Different accounts have different permissions -> need to know basis/ least priviliged access -> only provided an access if you need it
+## Classes
+* s3 standard class -> can access link 24/7 -> most expensive
+* infrequent access -> 
+* glacier- 
+* To download a specific file :
+```
+aws s3 cp s3://mybucket/object.txt file_name.txt
+```
+* To donwload everything from a bucket, do:
+```
+aws s3 sync s3://bucket --r
+```
+* The --r flag is recursive
+### Remove a bucket thats not empty
+```
+aws s3 rb s3://bucket --f
+```
+* The `--f` is a flag which force to delete the bucket, and everything inside
+* Better to use :
+```
+aws s3 rb s3://bucket --recursive
+```
+* This warns you before deleting, incase you have sensitive data in the bucket
+### Remove an object from a bucket
+```
+aws s3 rm s3://bucket/object.txt
+```
+## Boto3 commands - make a bucket
+```
+import boto3
+s3 = boto3.resource('s3')
+
+s3.create_bucket(Bucket='bucket-name', CreateBucketConfiguration={'LocationConstraint': 'location'})
+```
+## Boto3 commands - upload a file
+```
+import boto3
+s3 = boto3.resource('s3')
+bucket = s3.Bucket('bucket-name')
+
+bucket.upload_file('absolute/file/path', 'file-name-in-bucket')
+```
+## Boto3 commands - download a file
+```
+import boto3
+s3 = boto3.resource('s3')
+bucket = s3.Bucket('bucket-name')
+
+bucket.download_file('object_to_download', 'absolute_destination_path')
+```
+## Boto3 commands - delete an object
+```
+import boto3
+s3 = boto3.resource('s3')
+bucket = s3.Bucket('bucket-name')
+
+bucket.Object('file_to_delete').delete()
+```
+## Boto3 commands - deleta a bucket
+```
+s3.Bucket('bucket-name').delete()
+```
