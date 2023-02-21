@@ -654,4 +654,15 @@ print(response)
 11) Make the load balancer `internet-facing`
 12) Create a `dafault routing` group with the same naming convention
 12) Under health checks, tick `ELB`
-13) 
+13) Click next
+14) Set desired capacity : 2
+15) Set minimum capacitry : 2
+16) Set maximum capacity : 3
+17) Select `Target tracking scaling policy`
+18) Under metric type, select `Average CPU utilization`
+19) Set the `Target value` to 50
+20) Click next
+21) Click next
+22) Add a tag: `Key= name`, `Value = naming convention`
+23) Click next
+24) If satisfied with all the configurations, click `Create Auto Scaling group`
