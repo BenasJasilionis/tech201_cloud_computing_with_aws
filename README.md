@@ -571,7 +571,45 @@ bucket = s3.Bucket('bucket-name')
 
 bucket.Object('file_to_delete').delete()
 ```
-## Boto3 commands - deleta a bucket
+## Boto3 commands - delete a bucket
 ```
+import boto3
+s3 = boto3.resource('s3')
 s3.Bucket('bucket-name').delete()
+
+# Or
+
+import boto3
+ s3 = boto3.resource('s3')
+bucket = s3.Bucket('insert_bucket_name')
+response = bucket.delete() 
+print(response)
 ```
+## Python scripting
+* If the bucket being made already exists, write an if block to prompt the user to rename/ make another one
+## Make 2 tier architecture highly available and scaleable
+* Currently deployed island
+* When we deploy app want it to be scaleable and avaialble
+* Create a policy for scaling on demand, e.g. if cpu above 50% activate auto scaling group -> avoids single point of falure, automated, better user journey 
+* A load balancer serves as the single point of contact for clients 
+* The load balancer distributes incoming application traffic across multiple targets, such as EC2 instances, in multiple Availability Zones
+## Autoscaling
+* Scale in and out with load balancing
+* If one instance fails health chekcs, load balancer will stop traffic to that instance
+* Auto scaling group replcaes with a healthy instances -load balancer will check the health, if 200 will direct traffic there
+* Load balancer connected to internet gateway
+* Load
+* In policy must decide: minimum number of instances to be running, maximum number of instances to be running, threshholdw ->latency,cpu utilisation, etc,e.g. if its above 50% scale up, if it drops below, scale back down -> pay for what you use
+* Can scale on demand -> more expensive
+* Can scale within a certain time frame -> cheaper
+* Can do both, e.g. scale out if above 50% or at 7am
+* Different types of load balancer: Elastic Load Balancers, Application Load Balancers, and Network Load Balancers
+* We will use application load balancer (alb) (the most advanced and latest) - works on layer 7 which is the application layer of the Open Systems Interconnection (OSI) model
+* The `app` is internet facing -> it gets input from users on the internet
+* Listener/target groups need to allow HTTP and any other ports required
+* Create a launch template
+* Create ALB
+* Currently, all instances in eu-west-1a or b or v
+* Want to make sure that if there are 2 or more instance running, they are not in the same AZ -> if one goes down load balancer can redirect the traffic and auto scaler will create an instance in a available AZ -> multi AZs
+
+![](pictures/autoscaling_loadbalancing.png)
