@@ -57,3 +57,68 @@
 * When you create a VPC, you assign it an IPv4 CIDR block (a range of private IPv4 addresses), an IPv6 CIDR block, or both IPv4 and IPv6 CIDR blocks (dual-stack).
 * Private IPv4 addresses are not reachable over the internet. IPv6 addresses are globally unique and can be configured to remain private or be reachable over the internet.
 * Your VPC can operate in dual-stack mode. This means that your resources can communicate over IPv4, IPv6, or both IPv4 and IPv6. IPv4 and IPv6 addresses are independent of each other; you must add separate routes and security group rules for IPv4 and IPv6
+## Why amazon wanted VPC
+* Public network -> no security, anyone can access it, you simply rent a space in a public area
+* AWS introduced gov cloud for government organisations
+* Then introduced VPC -> can rent your own space on the cloud that only you have access, can do whatever in that space
+* NACL -> works on a subnet level whereas security groups work on an instance level
+## VPC
+* VPC has a CIDR block which is the ip for the VPC
+* Internet gateway allows vpc to interact with the internet
+* Virtual private gateway 
+* Step 1 - Create a VPC
+* Step 2 - Create an internet gateway
+* Step 3 - Attach internet gatewat to VPC
+* Step 4 - Allow internet access 0.0.0.0.0
+* Step 5 - Create a public subnet
+* Step 6 - Associate subnet with VPC
+* Step 7 - Create a route table
+* Step 8 - Add rules accordingly and attach to the public subnet
+* Step 9 - Edit route table -> target to internet geteway
+* CIDR block - 10.0.0.0/16 for the vpc
+* CIDR block - 10.0.0.0/24 for the subnet
+
+![](pictures/vpc_steps.png)
+
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Making the VPC`
+1) On the AWS homepage, search `VPC` and click on the `VPC` option
+2) Click Create VPC
+3) Choose `VPC only`
+3) Name the VPC with an accepted format e.g: `name-group-vpc`
+4) Choose `IPv4 CIDR manual input`
+5) For the IPv4 CIDR block, enter the following : ` 10.0.0.0/16`
+6) Click `Create VPC`
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Making the public subnet`
+1) On the AWS homepage, search `VPC` and click on the `VPC` option
+2) On the left hand side, click `Subnets`
+3) Click `Create subnet`
+4) Select your vpc 
+5) Name you subnet ,e.g: `name-group-public-app`
+6) Enter a valid IPv4 CIDR block. This can be found out by using an online CIDR calculator and entering your VPC IP, e.g. 10.0.0.0/16. This will output a range of all valid IPs. If an IP that you selected is taken, try another one from the range.
+7) Click `Create subnet`
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Creating an internet gateway`
+1) On the AWS homepage, search `VPC` and click on the `VPC` option
+2) On the left hand side, click `Internet gateways`
+3) Click `Create internet gateway`
+4) Name your gateway, e.g: `name-group-IG`
+5) Click `Create internet gateway`
+6) Select your created internet gateway
+7) From the `Actions` drop down menu, select `Attach to VPC`
+8) Select your VPC
+9) Attach the internet gateway
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Creating a route table`
+1) On the AWS homepage, search `VPC` and click on the `VPC` option
+2) On the left hand side, click `Route tables`
+3) Click `Create route table`
+4) Name your route table : `name-group-rt`
+5) Click `Create route table`
+6) Select your route table from the list
+7) Click `Subnet associations` -> `Edit subnet associations`
+8) Select your `public subnet`
+9) Click `Save associations`
+10) Click `Routes` -> `Edit routes`
+11) Click `Add route`
+12) In the left most box, enter: `0.0.0.0/0`
+13) In the right box, select `Internet Gateway` from the drop down list
+14) Select your internet gateway
+15) Click `Save changes`

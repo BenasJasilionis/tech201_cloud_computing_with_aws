@@ -696,3 +696,10 @@ forever start app.js
 ## User
 * User data only work once when it launches -> git clone doesn't work 
 * Port 443 -> HTTPS
+
+
+1) Create a subnet
+2) Select your vpc
+3) Name the subnet with the accepted format
+4) Give it a unique IPv4 CIDR block 
+5) 
