@@ -611,6 +611,8 @@ print(response)
 * Create ALB
 * Currently, all instances in eu-west-1a or b or v
 * Want to make sure that if there are 2 or more instance running, they are not in the same AZ -> if one goes down load balancer can redirect the traffic and auto scaler will create an instance in a available AZ -> multi AZs
+* Can bo multi-region
+* Can go multi-cloud -connect using vpn
 
 ![](pictures/autoscaling_loadbalancing.png)
 
@@ -651,6 +653,7 @@ cd absolute/path/to/app.js/directory
 
 nohup npm start 2>/dev/null 1>/dev/null&
 ```
+* Next time you run this you will get an error, because port 3000 will be in use, will have to kill the process first
 ### Option 2
 ```
 #!/bin/bash
