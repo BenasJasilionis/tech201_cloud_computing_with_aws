@@ -106,7 +106,7 @@
 7) From the `Actions` drop down menu, select `Attach to VPC`
 8) Select your VPC
 9) Attach the internet gateway
-## Building a 2 tier architecture on a custom VPC and custom subnets - `Creating a route table`
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Creating a route table for the public subnet`
 1) On the AWS homepage, search `VPC` and click on the `VPC` option
 2) On the left hand side, click `Route tables`
 3) Click `Create route table`
@@ -122,3 +122,70 @@
 13) In the right box, select `Internet Gateway` from the drop down list
 14) Select your internet gateway
 15) Click `Save changes`
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Making the private subnet`
+1) On the AWS homepage, search `VPC` and click on the `VPC` option
+2) On the left hand side, click `Subnets`
+3) Click `Create subnet`
+4) Select your vpc 
+5) Name you subnet ,e.g: `name-group-private-db`
+6) Enter a valid IPv4 CIDR block. This can be found out by using an online CIDR calculator and entering your VPC IP, e.g. 10.0.0.0/16. This will output a range of all valid IPs. If an IP that you selected is taken, try another one from the range.
+7) Click `Create subnet`
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Creating a route table for the private subnet`
+1) On the AWS homepage, search `VPC` and click on the `VPC` option
+2) On the left hand side, click `Route tables`
+3) Click `Create route table`
+4) Name your route table : `name-group-rt`
+5) Click `Create route table`
+6) Select your route table from the list
+7) Click `Subnet associations` -> `Edit subnet associations`
+8) Select your `private subnet`
+9) Click `Save associations`
+## Building a 2 tier architecture on a custom VPC and custom subnets - ` Launching the database instance`
+1) Navigate to `EC2`
+2) Click `Launch instance`
+3) Name your instance, e.g: `name-group-db-vpc`
+4) Select the `ami` which has all the dependencies that your database needs
+5) For instance type select: `t2.micro`
+6) Enter your `key`
+7) Click `Edit` network settings
+8) Select your vpc
+9) Select your `private` subnet
+10) `Disable` Auto-assign public IP
+11) Create a security group with the following ports:
+* Port 22 from your IP
+* Port 27017 from anywhere
+* Your app CIDR block
+12) Name the security group accordingly, by adding the used ports in the name
+13) Click `Launch instance`
+## Building a 2 tier architecture on a custom VPC and custom subnets - ` Launching the app instance`
+1) Navigate to `EC2`
+2) Click `Launch instance`
+3) Name your instance, e.g: `name-group-app-vpc`
+4) Select the `ami` which has all the dependencies that your app needs
+5) For instance type select: `t2.micro`
+6) Enter your `key`
+7) Click `Edit` network settings
+8) Select your vpc
+9) Select your `public` subnet
+10) `Enable` Auto-assign public IP
+11) Create a security group with the following ports:
+* Port 22 from your IP
+* Port 3000 from anywhere
+* HTTP port 80 from anywhere
+12) Name the security group accordingly, by adding the used ports in the name
+13) Click `Launch instance`
+## Building a 2 tier architecture on a custom VPC and custom subnets - `Connecting the instances`
+1) `SSH` into your app instance
+2) Update your environmental variable to have the IP of your database
+```
+export DB_HOST=mongodb://<db_IP>:27017/posts
+```
+3) Navigate to the directory which has your `app.js` file
+4) Seed your database:
+```
+node seeds/seed.js
+```
+5) Launch your app
+```
+node app.js
+```
