@@ -639,7 +639,30 @@ print(response)
 7) Do not include a launch template, this will be configured in the `auto scaling group (ASG)`
 8) You will want your template to have the same security groups as your original instance, so select the `app` security group instead of making a new one
 9) Select `Advanced details` and scroll down untill you see `User data`
-10) Add the command to allow `npm start` to run in the background
+10) Add the command to allow `npm start` to run in the background :
+### Option 1
+```
+#!/bin/bash
+
+sudo apt update -y 
+sudo apt upgrade -y
+
+cd absolute/path/to/app.js/directory
+
+nohup npm start 2>/dev/null 1>/dev/null&
+```
+### Option 2
+```
+#!/bin/bash
+
+sudo apt update -y 
+sudo apt upgrade -y
+
+cd absolute/path/to/app.js/directory
+
+sudo npm install forever -g
+forever start app.js
+```
 ## Creating an auto scaler and load balancer - Creating the ASG
 1) On the AWS home page, scroll down to `Auto Scaling` and click on `Auto Scaling Groups`
 2) Click `Create an Auto Scaling Group`
@@ -666,3 +689,7 @@ print(response)
 22) Add a tag: `Key= name`, `Value = naming convention`
 23) Click next
 24) If satisfied with all the configurations, click `Create Auto Scaling group`
+
+## User
+* User data only work once when it launches -> git clone doesn't work 
+* Port 443 -> HTTPS
